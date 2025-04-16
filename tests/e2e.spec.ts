@@ -4,8 +4,7 @@ import { PollenPage } from "../pages/pollenPage";
 import { ResultsPage } from "../pages/resultsPage";
 import { Regions } from "../pages/pollenPage";
 
-test("User search flow", async ({ page, browserName }) => {
-  test.skip(browserName === "firefox", "Visibility error");
+test("User search flow", async ({ page }) => {
   // Homepage interactions
   const homepage = new HomePage(page);
   await homepage.navigateTo();
@@ -21,7 +20,7 @@ test("User search flow", async ({ page, browserName }) => {
   // Pollen page interactions
   const pollenPage = new PollenPage(page);
   await expect(pollenPage.articleHeader).toHaveText("Pollen forecast");
-  await expect(pollenPage.regionHeader).toHaveText(Regions.EastOfEngland);
+  await expect(await pollenPage.activeRegionHeader(Regions.EastOfEngland)).toBeVisible();
 
   // TODO: Investigate why this is not working as expected when running as an automated test.
   // const precepitationMapPage = new PrecipitationMapPage(page);

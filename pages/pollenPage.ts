@@ -13,7 +13,6 @@ export class PollenPage extends BasePage {
   readonly articleHeader: Locator;
   readonly regionSelector: Locator;
   readonly pollenForcecastCard: Locator;
-  readonly regionHeader: Locator;
 
   constructor(public readonly page: Page) {
     super(page);
@@ -24,7 +23,6 @@ export class PollenPage extends BasePage {
     this.pollenForcecastCard = page
       .locator('.pollen-forecast-card')
       .filter({ has: page.locator(':visible') });
-    this.regionHeader = this.pollenForcecastCard.locator('.region-heading');
   }
 
   /**
@@ -37,6 +35,14 @@ export class PollenPage extends BasePage {
       .allTextContents();
     await this.regionSelector.scrollIntoViewIfNeeded();
     await this.regionSelector.selectOption(value);
+  }
+
+  /**
+   * Verifies the header of the selected region.
+   * @param value - The expected region header.
+   */
+  async activeRegionHeader(value: string) {
+    return this.page.getByRole('heading', { name: value })
   }
 
   /**

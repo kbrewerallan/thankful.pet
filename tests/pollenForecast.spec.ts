@@ -8,9 +8,10 @@ test.describe("Pollen Forecast Tests", () => {
 
   test("Selecting No Region hides card", async ({ pollenPage }) => {
     await pollenPage.selectRegion(Regions.Wales);
-    await expect(pollenPage.regionHeader).toBeVisible();
+    await expect(await pollenPage.activeRegionHeader(Regions.Wales)).toBeVisible();
     await pollenPage.selectRegion(Regions.NoRegion);
-    await expect(pollenPage.regionHeader).not.toBeVisible();
+    await expect(await pollenPage.activeRegionHeader(Regions.Wales)).not.toBeVisible();
+    await expect(pollenPage.pollenForcecastCard).not.toBeVisible();
   });
 
   const regions: Regions[] = [
@@ -22,7 +23,7 @@ test.describe("Pollen Forecast Tests", () => {
   regions.forEach((region) => {
     test(`Region is applied: ${region}`, async ({ pollenPage }) => {
       await pollenPage.selectRegion(region);
-      await expect(pollenPage.regionHeader).toContainText(region);
+      await expect(await pollenPage.activeRegionHeader(region)).toBeVisible();
     });
   });
 });
